@@ -1,2 +1,6 @@
-# mars-ticket-booking-backend
-Group 6 Final Project - Mars Ticket Booking Backend
+Group 6 Members:
+- Banga, Harjit Singh
+- Himani, Himani
+- Singh, Prabhsimiran
+
+Project: Mars Ticket Booking Website Backend
