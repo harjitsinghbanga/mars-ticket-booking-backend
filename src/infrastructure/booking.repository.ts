@@ -1,4 +1,4 @@
-import { Launch } from '../domain/booking.entity';
+import type { Launch } from '../domain/booking.entity.js';
 
 export class BookingRepository {
   private launches: Launch[] = [
