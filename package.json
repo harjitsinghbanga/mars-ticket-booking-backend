@@ -4,7 +4,8 @@
   "description": "Group 6 Final Project - Mars Ticket Booking Backend",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon --exec tsx src/index.ts",
+    "dev": "nodemon --exec tsx src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -13,12 +14,19 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/harjitsinghbanga/mars-ticket-booking-backend/issues"
   },
   "homepage": "https://github.com/harjitsinghbanga/mars-ticket-booking-backend#readme",
   "devDependencies": {
+    "@types/express": "^5.0.6",
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
   }
 }
