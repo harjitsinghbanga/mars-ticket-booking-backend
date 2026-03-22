@@ -1,4 +1,9 @@
-import type { User } from '../domain/user.entity.js';
+type User = {
+  id: number;
+  username: string;
+  password: string;
+  isAdmin: boolean;
+};
 
 export class UserRepository {
   private users: User[] = [
