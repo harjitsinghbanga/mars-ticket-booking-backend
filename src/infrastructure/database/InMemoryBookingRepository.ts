@@ -1,16 +1,17 @@
-import { BookingRepository } from '../../domain/repositories/BookingRepository';
-import { Booking } from '../../domain/entities/Booking';
+import { UserRepository } from '../../domain/repositories/UserRepository';
+import { User } from '../../domain/entities/User';
 
-export class InMemoryBookingRepository implements BookingRepository {
-  private bookings: Booking[] = [];
+export class InMemoryUserRepository implements UserRepository {
+  private users: User[] = [];
 
-  async create(booking: Booking): Promise<Booking> {
-    const newBooking = { ...booking, id: `mars-${Math.floor(Math.random() * 10000)}` };
-    this.bookings.push(newBooking);
-    return newBooking;
+  async findByEmail(email: string): Promise<User | null> {
+    const user = this.users.find(u => u.email === email);
+    return user || null;
   }
 
-  async findById(id: string): Promise<Booking | null> { return null; }
-  async findAll(): Promise<Booking[]> { return []; }
-  async updateStatus(id: string, status: any): Promise<Booking | null> { return null; }
+  async create(user: User): Promise<User> {
+    const newUser = { ...user, id: `user-${Math.floor(Math.random() * 10000)}` };
+    this.users.push(newUser);
+    return newUser;
+  }
 }
