@@ -1,17 +1,29 @@
-import { UserRepository } from '../../domain/repositories/UserRepository';
-import { User } from '../../domain/entities/User';
+import { BookingRepository } from '../../domain/repositories/BookingRepository';
+import { Booking } from '../../domain/entities/Booking';
 
-export class InMemoryUserRepository implements UserRepository {
-  private users: User[] = [];
+export class InMemoryBookingRepository implements BookingRepository {
+  private bookings: Booking[] = [];
 
-  async findByEmail(email: string): Promise<User | null> {
-    const user = this.users.find(u => u.email === email);
-    return user || null;
+  async create(booking: Booking): Promise<Booking> {
+    const newBooking = { ...booking, id: `booking-${Math.floor(Math.random() * 10000)}` };
+    this.bookings.push(newBooking);
+    return newBooking;
   }
 
-  async create(user: User): Promise<User> {
-    const newUser = { ...user, id: `user-${Math.floor(Math.random() * 10000)}` };
-    this.users.push(newUser);
-    return newUser;
+  async findById(id: string): Promise<Booking | null> {
+    const booking = this.bookings.find(b => b.id === id);
+    return booking || null;
+  }
+
+  async findAll(): Promise<Booking[]> {
+    return this.bookings;
+  }
+
+  async updateStatus(id: string, status: 'Pending' | 'Confirmed' | 'Declined'): Promise<Booking | null> {
+    const booking = this.bookings.find(b => b.id === id);
+    if (booking) {
+      booking.status = status;
+    }
+    return booking || null;
   }
 }

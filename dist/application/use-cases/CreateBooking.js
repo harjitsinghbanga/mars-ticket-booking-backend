@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateBooking = void 0;
+// The "export" word right here is what TypeScript is looking for!
 class CreateBooking {
     bookingRepository;
     constructor(bookingRepository) {
