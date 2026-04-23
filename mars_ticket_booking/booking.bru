@@ -1,0 +1,19 @@
+meta {
+  name: Create Booking
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}/bookings
+  body: json
+  auth: bearer
+}
+
+{
+  "destination": "Mars",
+  "departureDate": "2024-12-01",
+  "passengerName": "John Doe",
+  "seatNumber": "A1"
+}
+}

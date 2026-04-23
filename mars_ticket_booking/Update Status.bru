@@ -1,0 +1,30 @@
+meta {
+  name: Update Status
+  type: http
+  seq: 4
+}
+
+patch {
+  url: http://localhost:3000/api/bookings/69eaa6a8c5630b91a834a86c
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWVhYTgwNmM1NjMwYjkxYTgzNGE4NmUiLCJyb2xlIjoiQXV0aG9yIiwiaWF0IjoxNzc2OTg2MTM4LCJleHAiOjE3NzcwNzI1Mzh9.VvT_y-wxEgqPhLa5aO_IinwK84jsA1A21fOShtOEiHM
+}
+
+body:json {
+  {
+    "status": "confirmed"
+  }
+  
+  //{ "status": "confirmed" }
+  //{ "status": "pending" }
+  //{ "status": "cancelled" }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

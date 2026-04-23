@@ -124,17 +124,3 @@ export class MongoBookingRepository implements BookingRepository {
     ));
   }
 }
-    const bookingDocs = await BookingModel.find().lean();
-    return bookingDocs as unknown as Booking[];
-  }
-
-  async updateStatus(id: string, status: 'pending' | 'confirmed' | 'cancelled' | 'decline'): Promise<Booking | null> {
-    const bookingDoc = await BookingModel.findOneAndUpdate(
-      { id },
-      { status, updatedAt: new Date() },
-      { new: true }
-    ).lean();
-    if (!bookingDoc) return null;
-    return bookingDoc as unknown as Booking;
-  }
-}

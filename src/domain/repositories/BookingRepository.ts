@@ -6,11 +6,4 @@ export interface BookingRepository {
   findByUserId(userId: string): Promise<Booking[]>;
   updateStatus(id: string, status: 'pending' | 'confirmed' | 'cancelled' | 'decline'): Promise<Booking | null>;
   findAll(): Promise<Booking[]>;
-}import { Booking } from '../entities/Booking';
-
-export interface BookingRepository {
-  create(booking: Booking): Promise<Booking>;
-  findById(id: string): Promise<Booking | null>;
-  findAll(): Promise<Booking[]>;
-  updateStatus(id: string, status: 'Pending' | 'Confirmed' | 'Declined'): Promise<Booking | null>;
 }

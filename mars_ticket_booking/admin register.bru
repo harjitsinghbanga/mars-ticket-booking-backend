@@ -1,0 +1,24 @@
+meta {
+  name: admin register
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:3000/api/auth/register
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Admin User",
+    "email": "admin123@mars.com",
+    "password": "Password123"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

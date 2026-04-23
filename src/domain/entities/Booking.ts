@@ -33,11 +33,4 @@ export class Booking {
     if (createdAt !== undefined) this.createdAt = createdAt;
     if (updatedAt !== undefined) this.updatedAt = updatedAt;
   }
-}export interface Booking {
-  id?: string;
-  userId: string | null;
-  launchDate: Date;
-  seatClass: 'Economy' | 'First-Class' | 'VIP-Pod';
-  status: 'Pending' | 'Confirmed' | 'Declined';
-  createdAt?: Date;
 }
