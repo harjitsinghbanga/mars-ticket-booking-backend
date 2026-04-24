@@ -8,3 +8,4 @@ export class UpdateBookingStatus {
     return await this.bookingRepository.updateStatus(id, status);
   }
 }
+// update
