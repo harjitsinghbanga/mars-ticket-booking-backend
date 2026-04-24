@@ -62,4 +62,4 @@ export class AuthController {
       res.status(401).json({ error: (error as Error).message });
     }
   }
-}
+}// update
