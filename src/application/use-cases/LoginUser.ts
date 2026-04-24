@@ -25,4 +25,4 @@ export class LoginUser {
 
     return { user, token };
   }
-}
+}// update
