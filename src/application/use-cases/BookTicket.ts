@@ -23,4 +23,4 @@ export class BookTicket {
     );
     return await this.bookingRepository.create(booking);
   }
-}
+}// update
