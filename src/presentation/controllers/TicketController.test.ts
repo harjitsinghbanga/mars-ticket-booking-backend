@@ -7,6 +7,22 @@ describe('TicketController', () => {
     controller = new TicketController();
   });
 
+  it('should return 400 if bookingId is missing', async () => {
+    const mockReq = {
+      params: { bookingId: '' },
+    } as any;
+
+    const mockRes = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    } as any;
+
+    await controller.getTicket(mockReq, mockRes);
+
+    expect(mockRes.status).toHaveBeenCalledWith(400);
+    expect(mockRes.json).toHaveBeenCalledWith({ error: 'bookingId is required' });
+  });
+
   it('should get ticket successfully', async () => {
     const mockReq = {
       params: { bookingId: 'booking-1' },

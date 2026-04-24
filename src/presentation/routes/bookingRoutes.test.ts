@@ -1,70 +1,63 @@
 import request from 'supertest';
 import express from 'express';
-import bookingRoutes from './bookingRoutes';
-import { MongoBookingRepository } from '../../infrastructure/database/MongoBookingRepository';
-import { CreateBooking } from '../../application/use-cases/CreateBooking';
-import { UpdateBookingStatus } from '../../application/use-cases/UpdateBookingStatus';
-import { BookingController } from '../controllers/BookingController';
-
-// Mock the repository and use cases
-jest.mock('../../../infrastructure/database/MongoBookingRepository');
-jest.mock('../../../application/use-cases/CreateBooking');
-jest.mock('../../../application/use-cases/UpdateBookingStatus');
+import { createBookingRouter } from './bookingRoutes';
+import { InMemoryBookingRepository } from '../../infrastructure/database/InMemoryBookingRepository';
+import jwt from 'jsonwebtoken';
 
 describe('Booking Routes', () => {
   let app: express.Application;
+  let bookingRepository: InMemoryBookingRepository;
+  let token: string;
 
   beforeEach(() => {
     app = express();
     app.use(express.json());
+    bookingRepository = new InMemoryBookingRepository();
+    token = jwt.sign({ userId: 'user-1', role: 'Customer' }, process.env.JWT_SECRET || 'your-secret-key');
 
-    // Mock authentication middleware
-    app.use('/api/bookings', (req, res, next) => {
-      req.user = { userId: 'user-1', role: 'Customer' };
-      next();
-    });
-
-    app.use('/api/bookings', bookingRoutes);
+    app.use('/api/bookings', createBookingRouter(bookingRepository));
   });
 
   it('should have POST route for creating bookings', async () => {
     const response = await request(app)
       .post('/api/bookings')
+      .set('Authorization', `Bearer ${token}`)
       .send({
         destination: 'Mars',
-        departureDate: '2024-12-01',
+        departureDate: new Date('2024-12-01').toISOString(),
         passengerName: 'John Doe',
         seatNumber: 'A1',
       });
 
     expect(response.status).toBe(201);
+    expect(response.body.bookingId).toBeDefined();
   });
 
   it('should have GET route for user bookings', async () => {
-    const response = await request(app).get('/api/bookings');
+    const response = await request(app)
+      .get('/api/bookings')
+      .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
   });
 
-  it('should have PATCH route for updating status', async () => {
-    // Mock admin user
-    app.use('/api/bookings/:bookingId', (req, res, next) => {
-      req.user = { userId: 'admin-1', role: 'Admin' };
-      next();
-    });
+  it('should deny booking status update for non-admin', async () => {
+    const response = await request(app)
+      .patch('/api/bookings/booking-1')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ status: 'confirmed' });
+
+    expect(response.status).toBe(403);
+  });
+
+  it('should allow booking status update for admin', async () => {
+    const adminToken = jwt.sign({ userId: 'admin-1', role: 'Admin' }, process.env.JWT_SECRET || 'your-secret-key');
 
     const response = await request(app)
       .patch('/api/bookings/booking-1')
+      .set('Authorization', `Bearer ${adminToken}`)
       .send({ status: 'confirmed' });
 
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(404); // since booking doesn't exist
   });
-});
-
-
-describe('Booking Routes', () => {
-  it('should expose booking route configuration', () => {
-    expect(bookingRoutes).toBeDefined();
-  });
-
 });
