@@ -26,4 +26,4 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
     req.user = decoded as { userId: string; role: string };
     next();
   });
-};
+};// update
